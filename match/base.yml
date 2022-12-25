@@ -1,0 +1,89 @@
+global_vars:
+  - name: "remoteip"
+    type: "shell"
+    params:
+      cmd: "curl 'https://api.ipify.org'"
+  - name: "signoff"
+    type: "echo"
+    params:
+      echo: "Regards,\nJames Maclean"
+
+matches:
+  # Print the current date
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%m/%d/%Y"
+
+  # Print the output of a shell command
+  - trigger: ":shell"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "echo 'Hello from your shell'"
+   # Outputs public IP address
+  - trigger: ":ip"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "curl 'https://api.ipify.org'"
+  # Outputs the current weather for your location
+  - trigger: ":weather"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "curl 'http://wttr.in/?format=3'"
+  # Exchange Online
+  - trigger: ":exchange"
+    replace: "Connect-ExchangeOnline"
+  # Shodan Scan which then puts the IP 
+  - trigger: ":shodan"
+    replace: "curl -X POST 'https://api.shodan.io/shodan/scan?key=[KEYGOESHERE]' -d 'ips={{clipboard}}'"
+    vars:
+      - name: "clipboard"
+        type: "clipboard"
+  #- trigger: ":tk"
+   # replace: "//TICKET#$|$//"
+ # Add Ticket format
+   # With clipboard
+  - trigger: ":tkv"
+    replace: "//TICKET#{{clipboard}}//"  
+    vars:
+      - name: "clipboard"
+        type: "clipboard"
+  # Take me to PIM
+  - trigger: ":pim"
+    replace: "https://portal.azure.com/#view/Microsoft_Azure_PIMCommon/CommonMenuBlade/~/quickStart"
+  
+  - trigger: ":jekyll"
+    replace: "bundle exec jekyll serve"
+
+###GIF CITY
+  - trigger: ":cheers"
+    image_path: "$CONFIG/images/Smiling_Leo_Perfect_GIF.gif"
+
+#Communications
+  - trigger: ":kr"
+    replace: "Kind {{signoff}}"
+  - trigger: ":rr"
+    replace: "{{signoff}}"
+  - trigger: ":br"
+    replace: "Best {{signoff}}"
+#  - trigger: ":utc"
+#    replace: "{{mydate}}"
+#    vars:
+#      - name: mydate
+#        type: date
+#        params:
+#          format: "%m/%d/%Y %H:%M:%S %Z"
+#          locale: "en-utc"
+#
