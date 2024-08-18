@@ -27,7 +27,10 @@ matches:
     replace: "~~$|$~~"
 
   - trigger: ":url:"
-    replace: "[$|$]()"
+    replace: "[$|$]({{clipboard}})"
+    vars:
+      - name: "clipboard"
+        type: "clipboard"
 
   - triggers: [":image:", ":img:"]
     replace: "![]($|$)"
